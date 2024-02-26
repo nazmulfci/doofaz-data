@@ -1,0 +1,1027 @@
+<template id="">
+    <span>
+
+         <div class="search-form col-md-6 offset-md-3" v-if="role==3 && buttonHideShow=='guest'">
+            <form @submit.prevent="searchGuest()" method="post">
+               <div class="row">
+                   <div class="col-md-10">
+                        <div class="form-group">
+                           <label for="">Employee</label><br/>
+                            <select class="form-control" v-model="form2.employeeId">
+                               <option value="">Select Employee</option>
+                               <option v-for="(EmployeeInfo,index) in employeeLists" :key="index" :value="EmployeeInfo.id">
+                                   {{ EmployeeInfo.userName }}
+                                </option>
+                           </select>
+                        </div>
+                   </div>
+
+                   <div class="col-md-2">
+                       <div class="form-group">
+                           <button type="submit" class="btn btn-sm btn-primary search_btn">Search</button>
+                       </div>
+
+                  </div>
+                </div>
+            </form>
+        </div>
+
+      <div class="card mt-5">
+        <div class="card-header-tab card-header alert-info">
+            <h4>
+                <i class="header-icon lnr-laptop-phone icon-gradient bg-premium-dark"></i>
+                View Information
+            </h4>
+
+            <div class="col-md-2 numberList">
+                <select class="form-control" v-model="search">
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                    <option value="2000">2000</option>
+                    <option value="5000">5000</option>
+                </select>
+              </div>
+
+        </div>
+
+        <div class="supplier-entry py-4 px-2">
+           <div class="card-body table-responsive bg-white">
+            <form @submit.prevent="checkTransfer()">
+
+            <div class="col-md-2" style="margin-top:-20px;margin-bottom:5px;" v-if="role==3 && buttonHideShow=='all'">
+
+                <select class="form-control" v-model="form4.employeeId">
+                    <option value="">Select Employee</option>
+                    <option v-for="(EmployeeInfo,index) in employeeLists" :key="index" :value="EmployeeInfo.id">
+                       {{ EmployeeInfo.userName }}
+                    </option>
+               </select>
+
+              </div>
+
+               <div class="col-md-2" style="margin-top:-20px;margin-bottom:5px;" v-if="role==3 && buttonHideShow=='guest'">
+
+                <select class="form-control" v-model="form4.employeeId">
+                    <option value="">Select Employee</option>
+                    <option v-for="(EmployeeInfo,index) in employeeLists" :key="index" :value="EmployeeInfo.id">
+                       {{ EmployeeInfo.userName }}
+                    </option>
+               </select>
+
+              </div>
+
+             <div class="">
+                <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th>সি.নং</th>
+                        <th v-if="role==3 && buttonHideShow=='all'">Select</th>
+                        <th v-if="role==3 && buttonHideShow=='guest'">Select</th>
+                        <th v-if="role==3">প্রতিনিধি</th>
+                        <th>এরিয়া</th>
+                         <th v-if="buttonHideShow=='guest'">নাম</th>
+                         <th v-if="buttonHideShow=='guest'">স্ট্যাটাস</th>
+                         <th v-if="buttonHideShow=='guest'">মোবাইল<span id="underscore_remove">_</span>নাম্বার </th>
+                         <th v-if="buttonHideShow=='guest'">Whatsapp</th>
+                         <th v-if="buttonHideShow=='all' || buttonHideShow=='new'">প্রতিষ্ঠানের<span id="underscore_remove">_</span>নাম </th>
+                         <th v-if="buttonHideShow=='all' || buttonHideShow=='new'">স্ট্যাটাস</th>
+
+                         <th>ব্যবসার<span id="underscore_remove">_</span>ধরণ</th>
+                         <th>ক্যাটেগরি </th>
+                        <th>ব্লক</th>
+                        <th>রোড</th>
+                        <th>বাড়ি<span id="underscore_remove">_</span>মার্কেট </th>
+                        <th>ফ্লোর<span id="underscore_remove">_</span>নাম্বার </th>
+                        <th>দোকান<span id="underscore_remove">_</span>অফিস</th>
+
+                        <th>অফিস<span id="underscore_remove">_</span>নং </th>
+
+                        <th v-if="buttonHideShow=='all' || buttonHideShow=='new'">মোবাইল<span id="underscore_remove">_</span>নাম্বার </th>
+                        <th v-if="buttonHideShow=='all' || buttonHideShow=='new'">WhatsApp</th>
+                        <th>জরুরী<span id="underscore_remove">_</span>যোগাযোগ</th>
+                        <th>মালিকের<span id="underscore_remove">_</span>নাম</th>
+                        <th>মালিকের<span id="underscore_remove">_</span>ফোন </th>
+
+                        <th>ম্যানেজার<span id="underscore_remove">_</span>নাম</th>
+                        <th>ম্যানেজার<span id="underscore_remove">_</span>ফোন </th>
+                        <th>অফিস<span id="underscore_remove">_</span>সাইজ </th>
+                        <th>আগ্রহী</th>
+                        <th>ব্যবহার<span id="underscore_remove">_</span>করছেন</th>
+                        <th>ব্যবহারকৃত<span id="underscore_remove">_</span>নাম  </th>
+                        <th>ব্যবহার<span id="underscore_remove">_</span>না<span id="underscore_remove">_</span>করার<span id="underscore_remove">_</span>কারণ </th>
+
+                        <th>দায়িত্বরত</th>
+                        <th>কম্পিউটার<span id="underscore_remove">_</span>আছে</th>
+                        <th>আইটি<span id="underscore_remove">_</span>লোক<span id="underscore_remove">_</span>আছে</th>
+                        <th>ইমেইল</th>
+                        <th>ফেইসবুক</th>
+                        <th>ওয়েবসাইট</th>
+
+                        <th>মতামত</th>
+                        <th>Category</th>
+                        <th>ব্যবধান </th>
+                        <th>তারিখ<span id="underscore_remove">_</span>ও<span id="underscore_remove">_</span>সময় </th>
+                        <th>Priority</th>
+                        <th>Gallery</th>
+                        <th>Metting</th>
+                        <th width="10%">Edit</th>
+                        <th width="10%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <search-value :searchInformations="aponData" :role="getRoleShow"></search-value> -->
+                      <tr v-for="(shopInformation, index) in paginatedItems" v-if="normalDataShows">
+                        <td>{{ ++index }}</td>
+                        <td v-if="role==3 && buttonHideShow=='all'">
+                            <input type="checkbox" :value="shopInformation.id" v-model="form4.shop_id">
+                        </td>
+
+                         <td v-if="role==3 && buttonHideShow=='guest'">
+                            <input type="checkbox" :value="shopInformation.id" v-model="form4.shop_id">
+                        </td>
+
+                        <td v-if="role==3">{{ shopInformation.create_by_name_show.userName }}</td>
+
+                        <td v-if="shopInformation.area_information">
+                            <span>{{ shopInformation.area_information.areaName }}</span>
+                        </td>
+                        <td v-else>0</td>
+
+                         <td>
+                          {{ shopInformation.shopOfficeName }} <br>
+                            <button id="btn_form" @click.prevent="MessageModalShow(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                             Message
+                           </button>
+                         </td>
+
+                          <td v-if="shopInformation.status_type_information">
+                             {{ shopInformation.status_type_information.name }}
+                          </td>
+
+                          <td v-else>0</td>
+
+                         <td v-if="buttonHideShow=='guest'">{{ shopInformation.mobileNo }}</td>
+                         <td v-if="buttonHideShow=='guest'">{{ shopInformation.whatsapp }}</td>
+
+                          <td v-if="shopInformation.product_type_information || buttonHideShow=='all'">
+                          <span>{{ shopInformation.product_type_information.productType }}</span>
+                          <br>
+                          <span>
+                              <button id="btn_form" @click.prevent="timeLineInformationShow(shopInformation.id)" class="btn-sm btn-pill btn-info btn-hover-shine text-white">
+                              TimeLine
+                              </button>
+                          </span>
+
+                         </td>
+
+                         <td v-else>
+                            <!-- <span>{{ shopInformation.productTypeId }}</span>
+                            <br> -->
+                            <span v-if="buttonHideShow=='guest'">
+                                <button id="btn_form" @click.prevent="timeLineInformationShow(shopInformation.id)" class="btn-sm btn-pill btn-info btn-hover-shine text-white">
+                                TimeLine
+                                </button>
+                            </span>
+                         </td>
+
+
+                         <td v-if="shopInformation.category_information">
+                          {{ shopInformation.category_information.category_name }}
+                        </td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.block_road">{{ shopInformation.block_road.blockRoadNameNumber }}</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.road_information">
+                          {{ shopInformation.road_information.roadNameNumber }}
+                        </td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.house_market">
+                          {{ shopInformation.house_market.houseMarketName }}<br/>
+                          H.No# {{ shopInformation.house_market.houseMarketNumber }}
+                        </td>
+                        <td v-else>0</td>
+
+                        <td>{{ shopInformation.floorId }} Floor</td>
+
+                        <td v-if="shopInformation.shopOrOffice==1">
+                            দোকান
+                        </td>
+                        <td v-else-if="shopInformation.shopOrOffice==2">অফিস</td>
+                        <td v-else>Guest</td>
+
+
+                        <td>{{ shopInformation.shopOfficeNo }}</td>
+
+                        <td v-if="buttonHideShow=='all' || buttonHideShow=='new'">{{ shopInformation.mobileNo }}</td>
+                        <td v-if="buttonHideShow=='all' || buttonHideShow=='new'">{{ shopInformation.whatsapp }}</td>
+                        <td>{{ shopInformation.contactNo }}</td>
+
+                         <td>{{ shopInformation.owner_name }}</td>
+                        <td>{{ shopInformation.owner_phone }}</td>
+                        <td>{{ shopInformation.manager_name }}</td>
+                        <td>{{ shopInformation.manager_phone }}</td>
+                         <td>{{ shopInformation.shopOfficeSize }}</td>
+                        <td v-if="shopInformation.intarest==1">Yes</td>
+                        <td v-else-if="shopInformation.intarest==2">No</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.doYouUseSoftware==1">
+                            Yes
+                        </td>
+                         <td v-else-if="shopInformation.doYouUseSoftware==2">No</td>
+                        <td v-else>0</td>
+
+                        <td>{{ shopInformation.usedSoftwareName }}</td>
+                        <td>{{ shopInformation.whyDisagree }}</td>
+
+
+                        <td v-if="shopInformation.officerOrManager==1">
+                            owner
+                        </td>
+                        <td v-else-if="shopInformation.officerOrManager==2">Manager</td>
+                        <td v-else>0</td>
+
+
+
+                        <td v-if="shopInformation.haveComputer==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.haveComputer==2">No</td>
+                        <td v-else>0</td>
+
+
+
+                        <td v-if="shopInformation.expertPerson==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.expertPerson==2">No</td>
+                        <td v-else>0</td>
+
+                        <td>{{ shopInformation.email }}</td>
+                        <td>{{ shopInformation.facebook }}</td>
+                        <td>{{ shopInformation.facebook }}</td>
+                        <td>{{ shopInformation.aboutSoftwareComment }}</td>
+                        <td>
+                           <button @click.prevent="CategoryProduct(shopInformation.id)" class="btn btn-sm btn-info">Category</button>
+                        </td>
+
+                        <td>
+                          {{ shopInformation.time_distance }}
+                        </td>
+
+                       <td>
+                          {{moment(shopInformation.created_at).fromNow()}}
+                            </br>
+                          {{moment(shopInformation.created_at).format("DD MMMM YYYY")}}
+                            </br>
+                          {{moment(shopInformation.created_at).format("h:mm:ss a")}}
+                        </td>
+
+                        <td v-if="shopInformation.priority_status==0">
+                          <button id="btn_form" @click.prevent="PriorityInformation(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                              Priority
+                           </button>
+                        </td>
+
+                        <td v-else-if="shopInformation.priority_status==1">
+                          <button type="button" class="btn btn-sm btn-success">Done</button>
+                        </td>
+
+                        <td v-else>
+                          <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+
+                        <td>
+
+                          <button id="btn_form" @click.prevent="GalleryModalShow(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                             Gallery
+                          </button>
+
+                           <a href="" @click.prevent="NoteModalShow(shopInformation.id)" class="btn btn-pill btn-info btn-hover-shine text-white">
+                             Note
+                           </a>
+
+                        </td>
+                           <td>
+
+                           <button id="btn_form" @click.prevent="MettingModalShow(shopInformation.id)" class="btn-sm btn-pill btn-info btn-hover-shine text-white">
+                             M.Setup
+                           </button>
+                        </td>
+
+                         <td v-if="shopInformation.shopOrOffice!=3">
+
+                          <router-link :to="`/data@edit${shopInformation.id}`" class="btn btn-pill btn-secondary text-white">
+                            Edit </router-link>
+
+                        </td>
+
+                           <td v-if="shopInformation.shopOrOffice==3">
+
+                            <router-link :to="`/guest@edit${shopInformation.id}`" class="btn btn-pill btn-secondary text-white">
+                            Edit </router-link>
+
+                        </td>
+
+                        <td>
+
+                            <div class="dropdown">
+                              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Status
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" @click.prevent="ShowReasonModal(statusType.id,shopInformation.id)" v-for="statusType in status_type_list">
+                                      {{ statusType.name }}
+                                  </a>
+                              </div>
+                            </div>
+
+                        </td>
+                      </tr>
+                      <tr v-for="(shopInformation, index) in aponData" v-if="searchDataShows">
+                        <td>{{ ++index }}</td>
+                        <td v-if="role==3">{{ shopInformation.create_by_name_show.userName }}</td>
+
+                        <td v-if="shopInformation.area_information">
+                            <span>{{ shopInformation.area_information.areaName }}</span>
+                         </td>
+
+                         <td v-else>0</td>
+
+                        
+
+                         <td>
+                          {{ shopInformation.shopOfficeName }} <br>
+                            <button id="btn_form" @click.prevent="MessageModalShow(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                             Message
+                           </button>
+                         </td>
+
+                          <td v-if="shopInformation.status_type_information">
+                             {{ shopInformation.status_type_information.name }}
+                          </td>
+
+                          <td v-else>0</td>
+
+                          <td v-if="buttonHideShow=='guest'">{{ shopInformation.mobileNo }}</td>
+                         <td v-if="buttonHideShow=='guest'">{{ shopInformation.whatsapp }}</td>
+
+                          <td v-if="shopInformation.product_type_information">
+                          <span>{{ shopInformation.product_type_information.productType }}</span>
+                          <br>
+                          <span v-if="buttonHideShow=='all'">
+                              <button id="btn_form" @click.prevent="timeLineInformationShow(shopInformation.id)" class="btn-sm btn-pill btn-info btn-hover-shine text-white">
+                              TimeLine
+                              </button>
+                          </span>
+                         </td>
+                          <td v-else>0</td>
+
+                         <td v-if="shopInformation.category_information">
+                          {{ shopInformation.category_information.category_name }}
+                        </td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.block_road">{{ shopInformation.block_road.blockRoadNameNumber }}</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.road_information">
+                          {{ shopInformation.road_information.roadNameNumber }}
+                        </td>
+                        <td v-else>0</td>
+                        <td v-if="shopInformation.house_market">
+                          {{ shopInformation.house_market.houseMarketName }}<br/>
+                          H.No# {{ shopInformation.house_market.houseMarketNumber }}
+                        </td>
+                        <td v-else>0</td>
+                        
+                        <td v-if="shopInformation.floorId!=0">{{ shopInformation.floorId }} Floor</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.shopOrOffice==1">
+                            দোকান
+                        </td>
+                        <td v-else-if="shopInformation.shopOrOffice==2">অফিস</td>
+                        <td v-else>Guest</td>
+
+
+                        <td>{{ shopInformation.shopOfficeNo }}</td>
+
+                        <td v-if="buttonHideShow!='all'">{{ shopInformation.mobileNo }}</td>
+                        <td v-if="buttonHideShow!='all'">{{ shopInformation.whatsapp }}</td>
+                        <td>{{ shopInformation.contactNo }}</td>
+
+                         <td>{{ shopInformation.owner_name }}</td>
+                        <td>{{ shopInformation.owner_phone }}</td>
+                        <td>{{ shopInformation.manager_name }}</td>
+                        <td>{{ shopInformation.manager_phone }}</td>
+                         <td>{{ shopInformation.shopOfficeSize }}</td>
+                        <td v-if="shopInformation.intarest==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.intarest==2">No</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.doYouUseSoftware==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.doYouUseSoftware==2">No</td>
+                        <td v-else>0</td>
+
+                        <td>{{ shopInformation.usedSoftwareName }}</td>
+                        <td>{{ shopInformation.whyDisagree }}</td>
+
+
+                        <td v-if="shopInformation.officerOrManager==1">
+                            owner
+                        </td>
+                        <td v-else-if="shopInformation.officerOrManager==2">Manager</td>
+                        <td v-else>0</td>
+
+
+
+                        <td v-if="shopInformation.haveComputer==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.haveComputer==2">No</td>
+                        <td v-else>0</td>
+
+                        <td v-if="shopInformation.expertPerson==1">
+                            Yes
+                        </td>
+                        <td v-else-if="shopInformation.expertPerson==2">No</td>
+                        <td v-else>0</td>
+
+                        <td>{{ shopInformation.email }}</td>
+                        <td>{{ shopInformation.facebook }}</td>
+                        <td>{{ shopInformation.facebook }}</td>
+                        <td>{{ shopInformation.aboutSoftwareComment }}</td>
+                        <td>
+                           <button @click.prevent="CategoryProduct(shopInformation.id)" class="btn btn-sm btn-info">Category</button>
+                        </td>
+
+                        <td>
+                          {{ shopInformation.time_distance }}
+                        </td>
+
+                       <td>
+                          {{moment(shopInformation.created_at).fromNow()}}
+                            </br>
+                          {{moment(shopInformation.created_at).format("DD MMMM YYYY")}}
+                            </br>
+                          {{moment(shopInformation.created_at).format("h:mm:ss a")}}
+                        </td>
+
+                        <td v-if="shopInformation.priority_status==0">
+                          <button id="btn_form" @click.prevent="PriorityInformation(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                              Priority
+                           </button>
+                        </td>
+
+                        <td v-else-if="shopInformation.priority_status==1">
+                          <button class="btn btn-sm btn-success">Done</button>
+                        </td>
+
+                        <td v-else>
+                          <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+
+                        <td>
+
+                          <button id="btn_form" @click.prevent="GalleryModalShow(shopInformation.id)" class="btn-sm btn-pill btn-primary btn-hover-shine text-white">
+                             Gallery
+                          </button>
+
+                           <a href="" @click.prevent="NoteModalShow(shopInformation.id)" class="btn btn-pill btn-info btn-hover-shine text-white">
+                             Note
+                           </a>
+
+                        </td>
+                           <td>
+
+                           <button id="btn_form" @click.prevent="MettingModalShow(shopInformation.id)" class="btn-sm btn-pill btn-info btn-hover-shine text-white">
+                             M.Setup
+                           </button>
+                        </td>
+
+                        <td v-if="shopInformation.shopOrOffice!=3">
+
+                          <router-link :to="`/data@edit${shopInformation.id}`" class="btn btn-pill btn-secondary text-white">
+                            Edit </router-link>
+
+                        </td>
+
+                           <td v-if="shopInformation.shopOrOffice==3">
+
+                            <router-link :to="`/guest@edit${shopInformation.id}`" class="btn btn-pill btn-secondary text-white">
+                            guest </router-link>
+
+                        </td>
+
+                        <td>
+
+                            <div class="dropdown">
+                              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Status
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" @click.prevent="ShowReasonModal(statusType.id,shopInformation.id)" v-for="statusType in status_type_list">
+                                      {{ statusType.name }}
+                                     </a>
+                              </div>
+                            </div>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button type="submit" class="btn btn-lg btn-primary mt-2 mb-4 ml-2" v-if="lengthReturn">Submit</button>
+             </div>
+            </form>
+
+              <!-- <div class="pagination" v-if="normalDataShows">
+                <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+                <button
+                v-for="pageNumber in totalPages"
+                :key="pageNumber"
+                @click="setPage(pageNumber)"
+                :class="{ active: currentPage === pageNumber }"
+                >{{ pageNumber }}</button>
+                <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+            </div> -->
+
+            <div class="" v-if="normalDataShows">
+                <custom-pagination
+      :currentPage="currentPage"
+      :totalPages="totalPages"
+      @page-changed="changePage"
+    ></custom-pagination>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+        <!-- message modal -->
+        <div class="modal fade" id="MessageModalShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Message Send</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="supplier-entry py-4 px-2 comm-form-back-img">
+                        <div class="col-12 supplier-border comm-form-box-back-color">
+                            <message-form :shop_id="shop_id"></message-form>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer"></div>
+              </div>
+            </div>
+          </div>
+          <!-- message modal -->
+
+
+      <!-- CategoryProduct modal -->
+      <div class="modal fade" id="CategoryProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Category Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="supplier-entry py-4 px-2 comm-form-back-img">
+                    <div class="col-12 supplier-border comm-form-box-back-color">
+                        <category-form :shop_id="shop_id"></category-form>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer"></div>
+
+          </div>
+        </div>
+      </div>
+      <!-- CategoryProduct modal -->
+
+       <!-- note modal -->
+       <div class="modal fade" id="NoteModalShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Note</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="supplier-entry py-4 px-2 comm-form-back-img">
+                    <div class="col-12 supplier-border comm-form-box-back-color">
+                         <note-form :shop_id="shop_id"></note-form>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer"></div>
+
+          </div>
+        </div>
+      </div>
+      <!-- note modal -->
+
+        <!-- metting modal -->
+        <div class="modal fade" id="MettingModalShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Metting Information</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="supplier-entry py-4 px-2 comm-form-back-img">
+                        <div class="col-12 supplier-border comm-form-box-back-color">
+                            <metting-form :shop_id="shop_id"></metting-form>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- metting modal -->
+
+            <!--Reason Modal -->
+            <div class="modal fade" id="ReasonModalShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Status Reason</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="supplier-entry py-4 px-2 comm-form-back-img">
+                            <div class="col-12 supplier-border comm-form-box-back-color">
+                                 <status-reason-form :shop_id="shop_id" :status_type_id="status_type_id"></status-reason-form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-- Reason Modal -->
+
+               <!-- Gallery Modal -->
+               <div class="modal fade" id="GalleryModalShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel"> Gallery</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                       <gallery-show :shop_id="shop_id"></gallery-show>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-- Gallery Modal -->
+
+
+              <!-- timeline modal -->
+
+              <div class="modal fade" id="timeLineInformationShow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                    <div class="modal-body">
+                        <timeline-information :shop_id="shop_id"></timeline-information>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- timeline modal -->
+
+
+
+    </span>
+  </template>
+
+<script>
+import CategoryForm from './CategoryModal/category@form.vue';
+import MessageForm from './CategoryModal/message@form.vue';
+import NoteForm from './CategoryModal/note@form.vue';
+import MettingForm from './CategoryModal/metting@form.vue';
+import StatusReasonForm from './CategoryModal/status@reason@form.vue';
+import GalleryShow from './CategoryModal/gallery@show.vue';
+import TimelineInformation from './CategoryModal/timeline@information.vue';
+import SearchValue from './CategoryModal/search@value.vue';
+import CustomPagination from './pagination.vue';
+import moment from 'moment';
+export default{
+    props:['shopInformations','role','buttonHideShow'],
+    data(){
+        return{
+
+            form2:new Form({
+                employeeId:'',
+           }),
+
+           form4:new Form({
+                employeeId:'',
+                shop_id:[],
+           }),
+
+            itemsPerPage: 10, // Number of items to display per page
+            currentPage: 1,
+            shop_id:'',
+            status_type_id:'',
+            status_type_list:[],
+            moment:moment,
+            searchData:'',
+            search:'',
+            searchDataShows:false,
+            normalDataShows:true,
+            aponData:[],
+            employeeLists:[],
+        }
+    },
+
+    components:{
+        'category-form':CategoryForm,
+        'message-form':MessageForm,
+        'note-form':NoteForm,
+        'metting-form':MettingForm,
+        'status-reason-form':StatusReasonForm,
+        'gallery-show':GalleryShow,
+        'timeline-information':TimelineInformation,
+        'search-value':SearchValue,
+        'custom-pagination':CustomPagination,
+    },
+
+    computed: {
+        totalPages() {
+          return Math.ceil(this.shopInformations.length / this.itemsPerPage);
+        },
+        paginatedItems() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.shopInformations.slice(start, end);
+        },
+
+        getRoleShow() {
+            return this.$store.getters.getRoleShow;
+        },
+
+        lengthReturn(){
+           let abc =this.form4.shop_id.length;
+           return abc;
+        },
+
+    },
+
+    mounted(){
+      this.viewEmployee();
+      this.statusTypeShow();
+    },
+
+    methods:{
+      changePage(page) {
+      this.currentPage = page;
+    },
+
+    statusTypeShow(){
+        axios.get('status/type/show').then((response) => {
+          this.status_type_list = response.data.lists;
+        });
+      },
+
+
+    // priority status
+    PriorityInformation(shop_id){
+         axios.get('priority/information/'+shop_id).then((response)=>{
+           
+            Toast.fire({
+              icon: "success",
+              //background: '#fcd8d8', red
+              background: '#c9f4c9', //green
+              title:"Priority Added Successful",
+            });
+         });
+      },
+    // priority status
+
+    MessageModalShow(id){
+        this.shop_id=id;
+      $('#MessageModalShow').modal('show');
+    },
+
+    CategoryProduct(id){
+        this.shop_id=id;
+      $('#CategoryProduct').modal('show');
+    },
+
+    // note information
+    NoteModalShow(id){
+        this.shop_id = id;
+        $('#NoteModalShow').modal('show');
+      },
+    // note information
+
+    // metting information
+    MettingModalShow(id){
+        this.shop_id = id;
+        $('#MettingModalShow').modal('show');
+      },
+    // metting information
+
+
+    // statusReason
+    ShowReasonModal(status_id,id){
+         this.shop_id = id;
+         this.status_type_id = status_id;
+         $('#ReasonModalShow').modal('show');
+      },
+    // statusReason
+
+
+    //timeline
+
+    timeLineInformationShow(id) {
+        this.shop_id=id;
+       $('#timeLineInformationShow').modal('show');
+    },
+    //timeline
+
+    //gallery
+    GalleryModalShow(id){
+         this.shop_id = id;
+         $('#GalleryModalShow').modal('show');
+      },
+    //gallery
+
+    searchItems(value){
+        // alert(value)
+        axios.get(`search/items/${value}`).then((response)=>{
+            this.searchDataShows=true;
+            this.normalDataShows=false;
+            this.aponData = response.data.data;
+            console.log(this.aponData);
+         });
+    },
+
+    viewEmployee(){
+            axios.get('get/employee/list').then((response)=>{
+                this.employeeLists=response.data.data;
+            });
+        },
+
+        checkTransfer(){
+           this.form4.post('/items/tranfer').then((response)=>{
+            Toast.fire({
+              icon: "success",
+              //background: '#fcd8d8', red
+              background: '#c9f4c9', //green
+              title: "Submitted Successfully",
+            });
+            this.form4.reset();
+           });
+        },
+
+    viewEmployee(){
+       axios.get('get/employee/list').then((response)=>{
+          this.employeeLists=response.data.data;
+       });
+    },
+
+    searchGuest(){
+        this.searchDataShows=true;
+            this.normalDataShows=false;
+        if(this.form2.employeeId!=''){
+            this.form2.post('/guest/search').then((response)=>{
+            this.aponData = response.data.data;
+        });
+        }else{
+            Toast.fire({
+                icon: 'error',
+                title: 'Please Select Information'
+            });
+        }
+
+    },
+
+
+    },
+
+    watch: {
+
+        search(){
+        this.searchItems(this.search);
+        //   this.normalValueShow=false;
+        },
+
+},
+
+
+}
+</script>
+
+<style scoped>
+.col-12.supplier-border.comm-form-box-back-color {
+	padding: 5px 10px;
+}
+#btn_form{
+	margin: 2px 0px;
+	border: none;
+	border-radius: 20px;
+}
+button{
+    cursor: pointer;
+}
+.pagination button {
+	border: none;
+	padding: 5px 10px;
+	background: #ddd;
+	margin: 5px 1px;
+	cursor: pointer;
+	color: #000;
+	border: 1px solid rgba(0,0,0,.1);
+}
+.pagination button:disabled,
+.pagination button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+span#underscore_remove{
+    color:transparent!important;
+   }
+
+   .btn.btn-sm.btn-primary.search_btn {
+    margin-top: 29px;
+    padding: 7px 20px;
+}
+
+.search-form{
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.2);
+    padding: 20px 15px 10px 10px;
+}
+</style>

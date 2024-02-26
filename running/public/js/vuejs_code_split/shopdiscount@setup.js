@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[441],{803:function(t,s,e){"use strict";e.r(s);var n={name:"shopdiscount@setup"},u=e(0),o=Object(u.a)(n,(function(){var t=this.$createElement;return(this._self._c||t)("h3",[this._v("shopdiscount@setup")])}),[],!1,null,"73065b58",null);s.default=o.exports}}]);
