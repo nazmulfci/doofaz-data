@@ -1,5 +1,5 @@
-##  clone this repository
-##  composer install
+####  clone this repository
+###  composer install
 ##  replace env.txt file as a .env file
 ##  create database "doofaz_marketing2" in mysql
 ##  go to file directory db folder import database file in your phpmyadmin or other database
